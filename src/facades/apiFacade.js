@@ -17,12 +17,12 @@ function apiFacade() {
     return localStorage.getItem("jwtToken");
   };
 
-  const setRole = (role) => {
-    localStorage.setItem("role", role)
+  const setRole = (roles) => {
+    localStorage.setItem("roles", roles)
   }
 
   const getRole = () => {
-    return localStorage.getItem("role")
+    return localStorage.getItem("roles")
   }
 
   const setUsername = (username) => {
@@ -40,7 +40,7 @@ function apiFacade() {
 
   const logout = () => {
     localStorage.removeItem("jwtToken");
-    localStorage.removeItem("role");
+    localStorage.removeItem("roles");
     localStorage.removeItem("username");
   };
 
@@ -48,7 +48,7 @@ function apiFacade() {
 
   const login = async (user, password) => {
     const options = makeOptions("POST", true, {
-      username: user,
+      name: user,
       password: password,
     });
 
@@ -56,7 +56,7 @@ function apiFacade() {
       .then(handleHttpErrors)
       .then((res) => {
         setToken(res.token)
-        setRole(res.role)
+        setRole(res.roles)
         setUsername(res.username)
       })
   };
@@ -67,7 +67,7 @@ function apiFacade() {
 
     // try getting for user
     if(role === "user") {
-    return await fetch(URL + "/api/info/user", options)
+    return await fetch(URL + "/api/users/me", options)
       .then(handleHttpErrors)
     }
 
